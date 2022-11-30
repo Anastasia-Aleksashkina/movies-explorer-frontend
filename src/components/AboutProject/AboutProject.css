@@ -1,0 +1,53 @@
+.project {
+    padding: 110px 70px;
+}
+
+.project__title {
+    margin: 0;
+    font-weight: 400;
+    font-size: 22px;
+    padding-bottom: 23px;
+    border-bottom: 1px solid #DADADA; 
+}
+
+.project__description {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    padding: 70px 0 110px;
+}
+
+.project__description-title {
+    margin: 0;
+    font-weight: 400;
+    font-size: 20px;
+    padding-bottom: 26px;
+}
+
+.project__description-text {
+    margin: 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.project__scheme {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.project__scheme-progress {
+    background-color: #303030;
+    min-height: 36px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project__scheme-progress_green {
+    color: #000;
+    background-color: #3ddc84;
+    min-width: 200px;
+}

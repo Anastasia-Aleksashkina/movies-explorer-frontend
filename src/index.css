@@ -1,0 +1,21 @@
+@import url(./vendor/fonts/inter.css);
+
+body {
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  margin: 0 auto;
+  min-width: 320px;
+  max-width: 1280px;
+  color: #FFF;
+  background-color: #202020;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
