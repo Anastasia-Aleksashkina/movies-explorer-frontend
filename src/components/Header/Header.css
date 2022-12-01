@@ -1,35 +1,60 @@
 .header {
-    padding: 18px 70px;
+  padding: 18px 70px 0;
 }
 
 .header__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header__auth-button {
-    display: flex;
-    gap: 30px;
+  display: flex;
+  gap: 30px;
 }
 
 .header__button {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #FFF;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .header__button_green {
-    width: 76px;
-    height: 32px;
-    color: #000;
-    padding: 0;
-    background-color: #3DDC84;
-    border: 1px solid #000;
-    border-radius: 3px;
-    justify-content: center;
+  width: 76px;
+  height: 32px;
+  color: #000;
+  padding: 0;
+  background-color: #3ddc84;
+  border: 1px solid #000;
+  border-radius: 3px;
+  justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    padding: 18px 30px 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .header {
+    padding: 18px 14px 0;
+  }
+
+  .header__auth-button {
+    gap: 14px;
+  }
+
+  .header__button {
+    font-size: 10px;
+  }
+
+  .header__button_green {
+    width: 54px;
+    height: 26px;
+  }
 }
