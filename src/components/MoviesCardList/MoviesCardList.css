@@ -1,0 +1,7 @@
+.movies-card-list {
+  margin: 70px 70px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 364px);
+  justify-content: center;
+  gap: 37px 24px;
+}

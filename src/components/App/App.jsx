@@ -1,14 +1,25 @@
-import Footer from '../Footer/Footer';
-import Header from '../Header/Header';
-import Main from '../Main/Main';
-import './App.css';
+import { Route, Switch } from "react-router-dom";
+import Main from "../Main/Main";
+import { PAGES } from "../../utils/constants";
+import "./App.css";
+import Movies from "../Movies/Movies";
+import SavedMovies from "../SavedMovies/SavedMovies";
 
 function App() {
   return (
     <div>
-      <Header />
-      <Main />
-      <Footer />
+      <Switch>
+        <Route path={PAGES.MAIN} exact>
+          <Main />
+        </Route>
+        <Route path={PAGES.MOVIES} exact>
+          <Movies />
+        </Route>
+        <Route path={PAGES.SAVMOVIES} exact>
+          <SavedMovies />
+        </Route>
+        <Route path={PAGES.SIGNUP} exact></Route>
+      </Switch>
     </div>
   );
 }
