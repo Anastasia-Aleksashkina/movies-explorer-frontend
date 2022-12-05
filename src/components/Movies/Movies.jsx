@@ -10,7 +10,7 @@ function Movies() {
       <Header />
       <SearchForm />
       <MoviesCardList />
-      <button className="movies-card-list__button"></button>
+      <button className="movies__more-button" type="button">Ещё</button>
       <Footer />
     </>
   );
