@@ -5,6 +5,8 @@ import "./App.css";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
+import Register from "../Register/Register";
+import Login from "../Login/Login";
 
 function App() {
   return (
@@ -22,7 +24,12 @@ function App() {
         <Route path={PAGES.PROFILE} exact>
           <Profile />
         </Route>
-        <Route path={PAGES.SIGNUP} exact></Route>
+        <Route path={PAGES.SIGNUP} exact>
+          <Register />
+        </Route>
+        <Route path={PAGES.SIGNIN} exact>
+          <Login />
+        </Route>
       </Switch>
     </div>
   );

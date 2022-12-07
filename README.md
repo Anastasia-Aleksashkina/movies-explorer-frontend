@@ -1,3 +1,7 @@
+# Макет в Figma
+
+[Макет по ссылке](https://drive.google.com/file/d/19nDoAL5PUnxb9JMxA0DFAfEZ5JxPrSPw/view?usp=share_link).
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
