@@ -10,7 +10,7 @@ import Login from "../Login/Login";
 
 function App() {
   return (
-    <div>
+    <div className="App">
       <Switch>
         <Route path={PAGES.MAIN} exact>
           <Main />

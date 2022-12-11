@@ -8,9 +8,11 @@ function SavedMovies() {
   return (
     <>
       <Header />
-      <SearchForm />
-      <MoviesCardList />
-      <div className="saved-movies__interval"></div>
+      <main className="main">
+        <SearchForm />
+        <MoviesCardList />
+        <div className="saved-movies__interval"></div>
+      </main>
       <Footer />
     </>
   );

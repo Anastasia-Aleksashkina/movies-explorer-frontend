@@ -60,6 +60,7 @@
   border: none;
   padding: 0;
   color: #fff;
+  cursor: pointer;
 }
 
 .profile__button_red {

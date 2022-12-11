@@ -8,9 +8,13 @@ function Movies() {
   return (
     <>
       <Header />
-      <SearchForm />
-      <MoviesCardList />
-      <button className="movies__more-button" type="button">Ещё</button>
+      <main className="main">
+        <SearchForm />
+        <MoviesCardList />
+        <button className="movies__more-button" type="button">
+          Ещё
+        </button>
+      </main>
       <Footer />
     </>
   );

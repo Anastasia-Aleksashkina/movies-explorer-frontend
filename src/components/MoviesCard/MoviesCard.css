@@ -36,12 +36,24 @@
   cursor: pointer;
 }
 
-.movies-card__like_activ {
+.movies-card__like_active {
   width: 30px;
   height: 30px;
   border: none;
   background: transparent;
   background-image: url(../../images/icon-like-activ.svg);
+  flex-shrink: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.movies-card__delete {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  background-image: url(../../images/delete.svg);
   flex-shrink: 0;
   background-position: center;
   background-repeat: no-repeat;

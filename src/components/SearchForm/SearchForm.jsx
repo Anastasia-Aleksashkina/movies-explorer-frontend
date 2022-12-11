@@ -3,7 +3,7 @@ import "./SearchForm.css";
 function SearchForm() {
   return (
     <section className="search-form">
-      <form className="search-form__form" noValidate>
+      <form className="search-form__form">
         <div className="search-form__icon"></div>
         <input
           className="search-form__input"
