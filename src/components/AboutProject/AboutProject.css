@@ -1,0 +1,129 @@
+.project {
+  padding: 110px 70px;
+}
+
+.project__title {
+  margin: 0;
+  font-weight: 400;
+  font-size: 22px;
+  padding-bottom: 23px;
+  border-bottom: 1px solid #dadada;
+}
+
+.project__description {
+  display: flex;
+  gap: 40px;
+  padding: 70px 0 110px;
+}
+
+.project__description-title {
+  margin: 0;
+  font-weight: 400;
+  font-size: 20px;
+  padding-bottom: 26px;
+}
+
+.project__description-text {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.project__scheme {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) 4fr;
+}
+
+.project__scheme-progress {
+  background-color: #303030;
+  min-height: 36px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.project__scheme-progress_green {
+  color: #000;
+  background-color: #3ddc84;
+}
+
+.project__scheme-test {
+  margin: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: #8b8b8b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .project {
+    padding: 90px 50px;
+  }
+
+  .project__description {
+    padding: 70px 0 93px;
+    gap: 30px;
+  }
+
+  .project__description-title {
+    padding-bottom: 22px;
+  }
+
+  .project__description-text {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .project__scheme {
+    grid-template-columns: minmax(200px, 1fr) 4fr;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .project {
+    padding: 70px 18px;
+  }
+
+  .project__title {
+    font-size: 18px;
+    padding-bottom: 28px;
+  }
+
+  .project__description {
+    flex-direction: column;
+    padding: 60px 0;
+    gap: 56px;
+  }
+
+  .project__description-title {
+    font-size: 18px;
+    padding-bottom: 16px;
+  }
+
+  .project__description-text {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .project__scheme {
+    grid-template-columns: minmax(100px, 1fr) 4fr;
+  }
+
+  .project__scheme-progress {
+    min-height: 35px;
+    margin-bottom: 10px;
+    font-size: 11px;
+  }
+
+  .project__scheme-test {
+    font-weight: 400;
+    font-size: 11px;
+  }
+}

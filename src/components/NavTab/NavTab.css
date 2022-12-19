@@ -1,0 +1,40 @@
+.project-nav {
+  display: flex;
+  justify-content: center;
+}
+
+.project-nav__list {
+  display: flex;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.project-nav__link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 96px;
+  height: 36px;
+  background-color: #303030;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 600px) {
+  .project-nav__list {
+    gap: 6px;
+  }
+
+  .project-nav__link {
+    width: 82px;
+    height: 26px;
+    font-size: 10px;
+  }
+}
