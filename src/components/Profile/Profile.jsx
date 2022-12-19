@@ -1,10 +1,8 @@
-import Header from "../Header/Header";
 import "./Profile.css";
 
 function Profile() {
   return (
     <>
-      <Header />
       <section className="profile">
         <div className="profile__container">
           <h2 className="profile__title">Привет, Настя!</h2>
