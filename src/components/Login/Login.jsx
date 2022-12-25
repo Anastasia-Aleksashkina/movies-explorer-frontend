@@ -1,34 +1,60 @@
 import { Link } from "react-router-dom";
 import Logo from "../Logo/Logo";
 import "./Login.css";
+import { useFormWithValidation } from "../../hooks/useFormValidation";
+import { VALIDATION_CONFIG } from "../../utils/constants";
 
-function Login() {
+function Login({ onLogin }) {
+  const { values, errors, isValid, handleChange } = useFormWithValidation(
+    { email: "", password: "" },
+    VALIDATION_CONFIG.LOGIN_DATA
+  );
+
+  function handleSubmitForm(e) {
+    e.preventDefault();
+    onLogin(values);
+  }
   return (
     <section className="auth">
       <div className="auth__header">
         <Logo />
         <h1 className="auth__title">Рады видеть!</h1>
       </div>
-      <form className="form">
+      <form onSubmit={handleSubmitForm} className="form">
         <label className="form__label">
           E-mail
           <input
-            type="text"
-            className="form__input"
+            className={`form__input ${errors.email ? "form__input_error" : ""}`}
             placeholder="E-mail"
-            value="aleksashkina@yandex.ru"
+            required
+            type="email"
+            name="email"
+            value={values.email || ""}
+            onChange={handleChange}
           />
+          <span className="form__text-error">{errors.email || ""}</span>
         </label>
         <label className="form__label" placeholder="Пароль">
           Пароль
           <input
-            type="password"
-            className="form__input"
-            value="123456789"
+            className={`form__input ${errors.password ? "form__input_error" : ""}`}
             placeholder="Пароль"
+            required
+            type="password"
+            name="password"
+            minLength="6"
+            value={values.password || ""}
+            onChange={handleChange}
           />
+          <span className="form__text-error">{errors.password || ""}</span>
         </label>
-        <button className="form__button" type="submit">
+        <button
+          className={
+            isValid ? "form__button" : "form__button form__button_disabled"
+          }
+          type="submit"
+          disabled={!isValid}
+        >
           Войти
         </button>
         <p className="form__text">

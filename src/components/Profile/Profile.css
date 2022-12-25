@@ -20,6 +20,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-width: 100%;
   margin: 0;
   font-weight: 500;
   font-size: 11px;
@@ -40,10 +41,21 @@
   text-align: end;
   font-weight: 400;
   font-size: 11px;
+  margin-top: 17px;
 }
 
 .profile__input:last-child {
   margin-top: 17px;
+}
+
+.profile__input_error {
+  color: #ee3465;
+}
+
+.profile__text-error {
+  color: #ee3465;
+  font-weight: 400;
+  font-size: 10px;
 }
 
 .profile__control {
@@ -61,6 +73,10 @@
   padding: 0;
   color: #fff;
   cursor: pointer;
+}
+
+.profile__button_disabled {
+  opacity: 0.5;
 }
 
 .profile__button_red {

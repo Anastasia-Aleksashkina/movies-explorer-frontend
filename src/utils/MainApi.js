@@ -1,4 +1,5 @@
-export const BASE_URL = "https://api.aleksashkina.movies.nomoredomains.club";
+// export const BASE_URL = "https://api.aleksashkina.movies.nomoredomains.club";
+export const BASE_URL = "http://localhost:3001/";
 
 function request({ url, method = "POST", data, token }) {
   return fetch(`${BASE_URL}${url}`, {
@@ -21,30 +22,40 @@ function request({ url, method = "POST", data, token }) {
 // Регистрация
 export const register = (name, email, password) => {
   return request({
-    url: "/signup",
+    url: "signup",
     data: { name, email, password },
   });
 };
 
 // Авторизация
-export const authorization = (email, password) => {
+export const login = (email, password) => {
   return request({
-    url: "/signin",
+    url: "signin",
     data: { email, password },
   });
 };
 
-// Проверка токена и получение данных пользователя
-export const getContent = (token) => {
+// Получение данных пользователя
+export const checkToken = () => {
   return request({
-    url: "/users/me",
-    method: "GET",
-    token,
+    url: "users/me",
+    method: "GET"
   });
 };
 
+// Обновление данных пользователя
+export const updateUser = (name, email) => {
+  return request({
+    url: 'users/me',
+    method: 'PATCH',
+    data: { name, email },
+  });
+};
+
+// Деавторизация
 export const logout = () => {
   return request({
-    url: "/logout",
+    url: "signout",
+    method: "DELETE",
   });
 };
