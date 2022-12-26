@@ -3,6 +3,7 @@ import { useFormWithValidation } from "../../hooks/useFormValidation";
 import { VALIDATION_ATTRIBUTES } from "../../utils/constants";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useContext, useEffect } from "react";
+import { VALIDATION_CONFIG } from "../../utils/constants";
 
 function Profile({ onUpdateUser, onLogout }) {
   const currentUser = useContext(CurrentUserContext);
@@ -13,7 +14,7 @@ function Profile({ onUpdateUser, onLogout }) {
   };
 
   const { values, isValid, errors, handleChange, setIsValid } =
-    useFormWithValidation(initialValues);
+    useFormWithValidation(initialValues, VALIDATION_CONFIG.REGISTER_DATA);
 
   // Проверка изменения данных и их валидности
   useEffect(() => {
@@ -58,15 +59,15 @@ function Profile({ onUpdateUser, onLogout }) {
             E-mail
             <input
               className={`profile__input ${
-                errors.name ? "profile__input_error" : ""
+                errors.email ? "profile__input_error" : ""
               }`}
               required
               type="email"
               name="email"
               value={values.email || ""}
               onChange={handleChange}
-            />
-            <span className="profile__text-error">{errors.name || ""}</span>
+            /> 
+            <span className="profile__text-error">{errors.email || ""}</span>
           </label>
         </form>
         <div className="profile__control">

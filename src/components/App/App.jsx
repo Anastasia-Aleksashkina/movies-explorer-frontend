@@ -33,8 +33,6 @@ function App() {
       });
   }
 
-  console.log(isLoggedIn);
-
   // Авторизация
   function handleLogin({ email, password }) {
     return MainApi.login(email, password)
@@ -67,7 +65,6 @@ function App() {
 
   // Обновление данных пользователя
   function handleUpdateUser({ name, email }) {
-    console.log(name, email);
     return MainApi.updateUser(name, email)
       .then((data) => {
         setCurrentUser(data);

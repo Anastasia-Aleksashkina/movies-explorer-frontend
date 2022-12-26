@@ -1,3 +1,5 @@
+export const BASE_URL = "https://api.nomoreparties.co/";
+
 export const PAGES = {
   SIGNIN: "/signin",
   SIGNUP: "/signup",
@@ -13,7 +15,7 @@ export const VALIDATION_ATTRIBUTES = {
     EMAIL: /^\S+@\S+\.\S+$/i,
   },
   MESSAGES: {
-    NAME: 'Имя может состоять только из букв, пробелов и дефиса',
+    NAME: "Имя может состоять только из букв, пробелов и дефиса",
     EMAIL: "Неправильный формат e-mail",
   },
 };
@@ -31,12 +33,15 @@ export const VALIDATION_CONFIG = {
     },
     LOGIN_DATA: {
       INPUTS: ["email"],
-    REGEX: {
-      email: VALIDATION_ATTRIBUTES.REGEX.EMAIL,
+      REGEX: {
+        email: VALIDATION_ATTRIBUTES.REGEX.EMAIL,
+      },
+      MESSAGES: {
+        email: VALIDATION_ATTRIBUTES.MESSAGES.EMAIL,
+      },
     },
-    MESSAGES: {
-      email: VALIDATION_ATTRIBUTES.MESSAGES.EMAIL,
-    },
-    }
   },
 };
+
+export const MESSAGES_ERROR =
+  "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз";
