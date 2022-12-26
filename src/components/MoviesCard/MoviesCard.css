@@ -7,6 +7,10 @@
   overflow: hidden;
 }
 
+.movies-card__trailer-link:hover {
+  opacity: 1;
+}
+
 .movies-card__img {
   height: 203px;
 }

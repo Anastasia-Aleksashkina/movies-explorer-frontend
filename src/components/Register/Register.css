@@ -65,6 +65,10 @@
   cursor: pointer;
 }
 
+.form__button_disabled {
+  opacity: 0.5;
+}
+
 .form__text {
   margin: 0;
   display: flex;
