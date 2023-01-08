@@ -12,14 +12,68 @@ import Header from "../Header/Header";
 import NotFound from "../NotFound/NotFound";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import * as MainApi from "../../utils/MainApi";
+import { api } from "../../utils/MoviesApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-// import { MoviesApi } from "../../utils/MoviesApi";
+import LoacalStorage from "../../utils/LoacalStorage";
+import { filterMovies } from "../../utils/filterMovies";
+
+const newLocal = new LoacalStorage("movies");
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Проверка авторизации пользователяСостояние входа в профиль
   const [currentUser, setCurrentUser] = useState({}); // Данные текущего пользоволетя
+
+  const [isLoading, setIsLoading] = useState(false); // Состояние загрузки данных с сервера
+  const [allMovies, setAllMovies] = useState([]); // Полный список фильмов с сервера MoviesApi
+  const [showMovies, setShowMovies] = useState([]); // Список отображаемых фильмов в movieCardList
+  const [filtredMovies, setFiltredMovies] = useState([]); // Отфильтрованный список фильмов в Movies
+  const [resStatus, setResStatus] = useState(true); // Статус ответа от сервера
+  const [searchValues, setSearchValues] = useState(""); // Состояние значений поискового запроса
+
+  const moviesLocal = newLocal;
+  const searchThisQueryMoviesLocal = new LoacalStorage("search-query-movies", {
+    movie: "",
+    filter: false,
+  });
+
   const [menuActive, setmenuActive] = useState(false); // Меню в мобильной версии
   const history = useHistory(); // Обработка маршрутов по url
+
+  // Очистка LoacalStorage
+  function clearLoacalStorage() {
+    searchThisQueryMoviesLocal.delete();
+    moviesLocal.delete();
+  }
+
+  // Запрос всех фильмов с сервера
+  function getAllMovies() {
+    setIsLoading(true);
+    return api
+      .getMovies()
+      .then((movies) => {
+        setAllMovies(movies);
+        setIsLoading(false);
+        setResStatus(true);
+      })
+      .catch(() => {
+        setResStatus(false);
+      });
+  }
+
+  // Поиск фильмов
+  function searchMovies(values) {
+    if (!allMovies.length) getAllMovies();
+    setSearchValues(values);
+  }
+
+  // Фильтрация фильмов
+  useEffect(() => {
+    if (allMovies?.length && searchValues) {
+      const movies = filterMovies(allMovies, 40, searchValues);
+      moviesLocal.save(movies);
+      setFiltredMovies(movies);
+    }
+  }, [allMovies, moviesLocal, searchValues]);
 
   // Регистрация
   function handleRegister(name, email, password) {
@@ -47,21 +101,29 @@ function App() {
       });
   }
 
+  // Проверка токена, подстановка данных пользователя
+  // Проверка наличия фильмов в LoacalStorage и добавление в стейт
   useEffect(() => {
     if (!isLoggedIn) return;
+
+    if (moviesLocal) {
+      console.log(moviesLocal);
+      setAllMovies(JSON.parse(moviesLocal));
+    }
+
     // Получение данных пользователя
     function getUserInfo() {
       return MainApi.checkToken()
-        .then((data) => {
+        .then((user) => {
           setIsLoggedIn(true);
-          setCurrentUser(data);
+          setCurrentUser(user);
         })
         .catch((err) => {
           console.log(`Ошибка: ${err}`);
         });
     }
     getUserInfo();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, moviesLocal]);
 
   // Обновление данных пользователя
   function handleUpdateUser({ name, email }) {
@@ -79,8 +141,11 @@ function App() {
     return MainApi.logout()
       .then((data) => {
         if (!data) return;
+        // Очищаем все стейты
         setIsLoggedIn(false);
-        setCurrentUser({}); // Очищаем стейт с данными пользователя
+        setCurrentUser({}); // Cтейт с данными пользователя
+        clearLoacalStorage(); // Очищаем LoacalStorage
+        setShowMovies([]);
         history.push(PAGES.MAIN);
       })
       .catch((err) => {
@@ -108,7 +173,19 @@ function App() {
               <Login onLogin={handleLogin} />
             </Route>
             <ProtectedRoute isLoggedIn={isLoggedIn} path={PAGES.MOVIES} exact>
-              <Movies />
+              <Movies
+                searchMovies={searchMovies}
+                searchThisQueryMoviesLocal={searchThisQueryMoviesLocal}
+                moviesLocal={moviesLocal}
+                allMovies={allMovies}
+                isLoading={isLoading}
+                resStatus={resStatus}
+                filtredMovies={filtredMovies}
+                showMovies={showMovies}
+                // savedMovie={savedMovie}
+                // onLikeMovie={onLikeMovie}
+                // onButtonMore={onButtonMore}
+              />
             </ProtectedRoute>
             <ProtectedRoute
               isLoggedIn={isLoggedIn}

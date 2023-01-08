@@ -18,14 +18,16 @@ function MoviesCardList({
         <p className="movies-card-list__error-message">{MESSAGES_ERROR}</p>
       ) : (
         <>
-          {showMovies.map((movie) => (
-            <MoviesCard
-              movie={movie}
-              key={movie.id || movie._id}
-              savedMovie={savedMovie}
-              onLikeMovie={onLikeMovie}
-            />
-          ))}
+          {showMovies.map((movie) => {
+            return (
+              <MoviesCard
+                movie={movie}
+                key={movie.id || movie._id}
+                savedMovie={savedMovie}
+                onLikeMovie={onLikeMovie}
+              />
+            );
+          })}
         </>
       )}
     </section>
