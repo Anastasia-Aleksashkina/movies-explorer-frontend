@@ -64,9 +64,10 @@ function App() {
   function searchMovies(values) {
     if (!allMovies.length) getAllMovies();
     setSearchValues(values);
+    console.log(values);
   }
 
-  // Фильтрация фильмов
+  // Фильтрация фильмов по короткометражкам
   useEffect(() => {
     if (allMovies?.length && searchValues) {
       const movies = filterMovies(allMovies, 40, searchValues);
@@ -105,11 +106,6 @@ function App() {
   // Проверка наличия фильмов в LoacalStorage и добавление в стейт
   useEffect(() => {
     if (!isLoggedIn) return;
-
-    if (moviesLocal) {
-      console.log(moviesLocal);
-      setAllMovies(JSON.parse(moviesLocal));
-    }
 
     // Получение данных пользователя
     function getUserInfo() {
