@@ -5,10 +5,10 @@ import { MESSAGES_ERROR } from "../../utils/constants";
 
 function MoviesCardList({
   isLoading,
-  showMovies,
-  savedMovie,
+  displayMovies,
+  savedMovies,
   onLikeMovie,
-  resStatus,
+  resStatus
 }) {
   return (
     <section className="movies-card-list">
@@ -18,12 +18,12 @@ function MoviesCardList({
         <p className="movies-card-list__error-message">{MESSAGES_ERROR}</p>
       ) : (
         <>
-          {showMovies.map((movie) => {
+          {  displayMovies.map((movie) => {
             return (
               <MoviesCard
                 movie={movie}
                 key={movie.id || movie._id}
-                savedMovie={savedMovie}
+                savedMovie={savedMovies}
                 onLikeMovie={onLikeMovie}
               />
             );

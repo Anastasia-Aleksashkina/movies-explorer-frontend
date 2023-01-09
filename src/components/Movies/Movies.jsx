@@ -5,38 +5,36 @@ import SearchForm from "../SearchForm/SearchForm";
 import "./Movies.css";
 
 function Movies({
-  searchMovies,
-  searchThisQueryMoviesLocal,
   allMovies,
-  filtredMovies,
-  isLoading,
+  displayMovies,
+  filteredMovies,
+  savedMovies,
   resStatus,
-  showMovies,
-  savedMovie,
+  isLoading,
+  formValues,
+  onSearchMovies,
   onLikeMovie,
   onButtonMore,
 }) {
   return (
     <>
       <main className="main">
-        <SearchForm
-          searchMovies={searchMovies}
-          searchThisQuery={searchThisQueryMoviesLocal}
-        />
+        <SearchForm formValues={formValues} searchMovies={onSearchMovies} />
         {!allMovies.length
           ? ""
-          : !filtredMovies.length && (
+          : !filteredMovies.length && (
               <p className="movies__error-message">Ничего не найдено.</p>
             )}
         <MoviesCardList
           isLoading={isLoading}
-          showMovies={showMovies}
-          savedMovie={savedMovie}
+          displayMovies={displayMovies}
+          savedMovies={savedMovies}
           onLikeMovie={onLikeMovie}
           resStatus={resStatus}
         />
         {window.location.pathname === PAGES.MOVIES &&
-          filtredMovies.length !== showMovies.length && (
+          filteredMovies &&
+          filteredMovies?.length !== displayMovies?.length && (
             <button
               className="movies__more-button"
               type="button"
