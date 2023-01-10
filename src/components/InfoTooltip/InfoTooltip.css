@@ -1,0 +1,85 @@
+.popup {
+  position: fixed;
+  top: 0px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s, opacity 0.5s linear;
+}
+
+.popup_visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #202020;
+  width: 358px;
+  height: 358px;
+  margin: 60px auto;
+  position: relative;
+  border-radius: 4px;
+}
+
+.popup__button-close {
+  position: absolute;
+  background-size: 32px 32px;
+  width: 32px;
+  height: 32px;
+  right: -35px;
+  top: -35px;
+  border: none;
+  background-image: url(../../images/close-button.svg);
+  color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.popup__button-close:hover {
+  opacity: 0.6;
+}
+
+.popup__message {
+  margin: 32px 36px 60px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.popup__res-status {
+    min-width: 120px;
+    min-height: 120px;
+    margin: 60px auto 0;
+    background-image: url(../../images/confirm.svg);
+}
+
+.popup__res-status_ok {
+    background-image: url(../../images/reject.svg);
+}
+
+@media screen and (max-width: 767px) {
+  .popup__button-close {
+    background-size: 20px 20px;
+    width: 20px;
+    height: 20px;
+    right: 0;
+  }
+
+  .popup__container {
+    width: 260px;
+    height: 260px;
+  }
+}

@@ -10,7 +10,7 @@ function duration(data) {
 
 function MoviesCard({ movie, savedMovie, onLikeMovie }) {
   return (
-    <li className="movies-card">
+    <div className="movies-card">
       <a
         className="movies-card__trailer-link"
         href={movie.trailerLink}
@@ -41,7 +41,7 @@ function MoviesCard({ movie, savedMovie, onLikeMovie }) {
         />
       </div>
       <p className="movies-card__film-duration">{duration(movie.duration)}</p>
-    </li>
+    </div>
   );
 }
 

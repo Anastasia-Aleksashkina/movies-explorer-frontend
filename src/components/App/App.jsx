@@ -10,7 +10,7 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Header from "../Header/Header";
 import NotFound from "../NotFound/NotFound";
-import InfoTooltip from "../InfoTooltip";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import * as MainApi from "../../utils/MainApi";
 import { api } from "../../utils/MoviesApi";
@@ -93,7 +93,7 @@ function App() {
     ) {
       handleSearchMovies(formValues.value, formValues.checkbox);
     }
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [allMovies]);
 
   // Зашрузка сохраненных фильмов пользователя с сервера
@@ -422,7 +422,7 @@ function App() {
                 savedMovies={savedMovies}
                 savedFilteredMovies={savedFilteredMovies}
                 resStatus={resStatus}
-                isSavedSearch={isSavedSearch}
+                isSavedSearchMovies={isSavedSearch}
                 formValues={formValues}
                 handleSearchSavedMovies={handleSearchSavedMovies}
                 onLikeMovie={handleMovieLike}

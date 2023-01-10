@@ -4,17 +4,17 @@ function NavTab() {
   return (
     <nav className="project-nav">
       <div className="project-nav__container">
-        <ul className="project-nav__list">
-          <li className="project-nav__link" href="#">
+        <div className="project-nav__list">
+          <a className="project-nav__link" href="#about-project">
             О проекте
-          </li>
-          <li className="project-nav__link" href="#">
+          </a>
+          <a className="project-nav__link" href="#techs">
             Технологии
-          </li>
-          <li className="project-nav__link" href="#">
+          </a>
+          <a className="project-nav__link" href="#about-me">
             Студент
-          </li>
-        </ul>
+          </a>
+        </div>
       </div>
     </nav>
   );

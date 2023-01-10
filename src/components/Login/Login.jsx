@@ -59,7 +59,7 @@ function Login({ onLogin }) {
         </button>
         <p className="form__text">
           Еще не зарегистрированы?
-          <Link className="form__link" to="/signin">
+          <Link className="form__link" to="/signup">
             Регистрация
           </Link>
         </p>

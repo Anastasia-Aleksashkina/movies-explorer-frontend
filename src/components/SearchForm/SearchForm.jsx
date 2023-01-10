@@ -1,59 +1,64 @@
 import "./SearchForm.css";
 import { useEffect, useState } from "react";
-import { useFormWithValidation } from "../../hooks/useFormValidation";
+import { PAGES } from "../../utils/constants";
 
-function SearchForm({ searchMovies, searchThisQuery }) {
-  const initialValues = {
-    movie: '',
-    filter: false,
-  };
-
-  const { values, isValid, handleChange, setValues, setIsValid } = useFormWithValidation(initialValues);
-
-  const [isSearchError, setIsSearchError] = useState(false); // Состояние ошибки поиска 
+function SearchForm({ formValues, searchMovies, searchSavedMovies }) {
+  const [isInvalid, setInvalid] = useState(false);
+  const [searchValue, setSearchValue] = useState(
+    window.location.pathname === PAGES.MOVIES ? formValues.value : ""
+  );
+  const [searchCheckbox, setCheckbox] = useState(
+    window.location.pathname === PAGES.MOVIES ? formValues.checkbox : false
+  );
 
   useEffect(() => {
-    const searchQuery = searchThisQuery.load()
+    if (window.location.pathname === PAGES.MOVIES) {
+      setSearchValue(formValues.value);
+      setCheckbox(formValues.checkbox);
+    }
+  }, [formValues]);
 
-    setValues(searchQuery)
-    if (searchQuery) setIsValid(true)
-  }, [searchThisQuery, setIsValid, setValues]);
-
-  // Обработка состояния чекбокса
-  function handleCheckbox(e) {
-    const newValues = { ...values, filter: e.target.checked }
-
-    handleChange(e)
-    searchMovies(newValues)
-    searchThisQuery.save(newValues)
+  function handleSearchValue(e) {
+    setSearchValue(e.target.value);
   }
-  
-  function handleSearchForm(e) {
-    e.preventDefault()
-    searchThisQuery.save(values)
 
-    if (!isValid) {
-      setIsSearchError(true)
+  function handleSearchCheckbox(e) {
+    setCheckbox(e.target.checked);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (e.target[0].value === "" && window.location.pathname === PAGES.MOVIES) {
+      setInvalid(true);
+      return;
+    }
+
+    setInvalid(false);
+
+    if (window.location.pathname === PAGES.SAVMOVIES) {
+      searchSavedMovies(searchValue, searchCheckbox);
     } else {
-      setIsSearchError(false)
-      searchMovies(values)
+      searchMovies(searchValue, searchCheckbox);
     }
   }
 
   return (
     <section className="search-form">
-      <form className="search-form__form" onSubmit={handleSearchForm}>
+      <form className="search-form__form" onSubmit={handleSubmit}>
         <div className="search-form__icon"></div>
         <input
           className="search-form__input"
           type="text"
           placeholder="Фильм"
-          name="movie"
-          onInput={handleChange}
-          value={values.movie || ""}
+          name="search"
+          value={searchValue}
+          onChange={handleSearchValue}
           required
         />
-        <span className="search-form__error">{isSearchError && 'Нужно ввести ключевое слово'}</span>
+        <span className="search-form__error">
+          {isInvalid && "Нужно ввести ключевое слово"}
+        </span>
         <button className="search-form__button-text" type="submit">
           Найти
         </button>
@@ -61,11 +66,11 @@ function SearchForm({ searchMovies, searchThisQuery }) {
           <input
             className="search-form__checkbox"
             type="checkbox"
-            name="filter"
-            checked={values.filter}
-            onChange={handleCheckbox}
+            name="checkbox"
+            checked={searchCheckbox}
+            onChange={handleSearchCheckbox}
           />
-          <label htmlFor="filter"></label>
+          <label htmlFor="checkbox"></label>
           <span className="search-form__switch-text">Короткометражки</span>
         </div>
       </form>

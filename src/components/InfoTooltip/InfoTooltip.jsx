@@ -16,7 +16,7 @@ const InfoTooltip = ({ isOpen, onClose, resStatus, resMessage }) => {
         />
         <div
           className={`popup__res-status ${
-            resStatus && "popup__res-status_type_res-ok"
+            resStatus && "popup__res-status_ok"
           }`}
         />
         <p className="popup__message">{resMessage}</p>
