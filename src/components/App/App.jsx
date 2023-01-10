@@ -165,10 +165,15 @@ function App() {
     checkboxLocal.save(checkbox);
 
     function filter(movies) {
-      // изменяем количество добавляемых карточек с фильмами в зависимости от ширины экрана
-      window.screen.width <= 768
-        ? setStepDisplayMovies(DISPLAY_MOVIE.TABLET_MOBILE)
-        : setStepDisplayMovies(DISPLAY_MOVIE.DESKTOP);
+      
+      // Изменяем количество добавляемых карточек с фильмами в зависимости от ширины экрана
+      window.screen.width > 768
+        ? setStepDisplayMovies(DISPLAY_MOVIE.FIRST_REQUEST.DESKTOP)
+        : setStepDisplayMovies(DISPLAY_MOVIE.FIRST_REQUEST.TABLET);
+
+        window.screen.width <= 480
+        ? setStepDisplayMovies(DISPLAY_MOVIE.FIRST_REQUEST.MOBILE)
+        : setStepDisplayMovies(DISPLAY_MOVIE.FIRST_REQUEST.TABLET);
 
       setFilteredMovies(
         movies.filter((i) => {
@@ -269,8 +274,8 @@ function App() {
     // В зависимости от разрешения экрана добавляем разное количество фильмов
     const step =
       window.screen.width <= 768
-        ? DISPLAY_MOVIE.TABLET_MOBILE
-        : DISPLAY_MOVIE.DESKTOP;
+        ? DISPLAY_MOVIE.NEXT_REQUEST.TABLET_MOBILE
+        : DISPLAY_MOVIE.NEXT_REQUEST.DESKTOP;
     // В стейт устанавливаем значение исходя из длинны массива и показываемых фильмов плюс шаг
     setStepDisplayMovies(displayMovies.length + step);
   }

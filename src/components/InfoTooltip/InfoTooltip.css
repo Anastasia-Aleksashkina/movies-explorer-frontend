@@ -63,11 +63,11 @@
     min-width: 120px;
     min-height: 120px;
     margin: 60px auto 0;
-    background-image: url(../../images/confirm.svg);
+    background-image: url(../../images/reject.svg);
 }
 
 .popup__res-status_ok {
-    background-image: url(../../images/reject.svg);
+    background-image: url(../../images/confirm.svg);
 }
 
 @media screen and (max-width: 767px) {

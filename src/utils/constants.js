@@ -48,8 +48,15 @@ export const MESSAGES_ERROR =
 
 // Количество фильмов, добавляемых для отображения по клику на кнопку "Ещё"
 export const DISPLAY_MOVIE = {
-  DESKTOP: 3,
-  TABLET_MOBILE: 2
+  FIRST_REQUEST: {
+    DESKTOP: 12,
+    TABLET: 8,
+    MOBILE: 5,
+  },
+  NEXT_REQUEST: {
+    DESKTOP: 3,
+    TABLET_MOBILE: 2,
+  },
 };
 
 export const SORT_DURATION = 40;

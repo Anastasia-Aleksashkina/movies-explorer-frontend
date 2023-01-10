@@ -11,8 +11,12 @@ function SearchForm({ formValues, searchMovies, searchSavedMovies }) {
     window.location.pathname === PAGES.MOVIES ? formValues.checkbox : false
   );
 
+  console.log(window.location.pathname === PAGES.MOVIES);
+
   useEffect(() => {
     if (window.location.pathname === PAGES.MOVIES) {
+      console.log(formValues.value);
+      console.log(formValues.checkbox);
       setSearchValue(formValues.value);
       setCheckbox(formValues.checkbox);
     }
@@ -62,17 +66,17 @@ function SearchForm({ formValues, searchMovies, searchSavedMovies }) {
         <button className="search-form__button-text" type="submit">
           Найти
         </button>
-        <div htmlFor="search-switch" className="search-form__switch">
+        <label htmlFor="search-switch" className="search-form__switch">
           <input
             className="search-form__checkbox"
             type="checkbox"
             name="checkbox"
             checked={searchCheckbox}
             onChange={handleSearchCheckbox}
+            id="checkbox"
           />
-          <label htmlFor="checkbox"></label>
           <span className="search-form__switch-text">Короткометражки</span>
-        </div>
+        </label>
       </form>
     </section>
   );
