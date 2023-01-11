@@ -124,8 +124,8 @@ function App() {
       window.addEventListener("resize", () => {
         setTimeout(() => {
           window.screen.width <= 768
-            ? setStepDisplayMovies(DISPLAY_MOVIE.TABLET_MOBILE)
-            : setStepDisplayMovies(DISPLAY_MOVIE.DESKTOP);
+            ? setStepDisplayMovies(DISPLAY_MOVIE.NEXT_REQUEST.TABLET_MOBILE)
+            : setStepDisplayMovies(DISPLAY_MOVIE.NEXT_REQUEST.DESKTOP);
         }, 3000);
       });
     } else {

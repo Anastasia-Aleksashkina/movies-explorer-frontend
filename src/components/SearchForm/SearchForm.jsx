@@ -66,16 +66,16 @@ function SearchForm({ formValues, searchMovies, searchSavedMovies }) {
         <button className="search-form__button-text" type="submit">
           Найти
         </button>
-        <label htmlFor="search-switch" className="search-form__switch">
+        <label htmlFor="search-checkbox" className="search-form__label">
           <input
             className="search-form__checkbox"
             type="checkbox"
             name="checkbox"
             checked={searchCheckbox}
             onChange={handleSearchCheckbox}
-            id="checkbox"
+            id="search-checkbox"
           />
-          <span className="search-form__switch-text">Короткометражки</span>
+          <span className="search-form__label-text">Короткометражки</span>
         </label>
       </form>
     </section>
