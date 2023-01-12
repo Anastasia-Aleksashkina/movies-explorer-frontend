@@ -1,5 +1,5 @@
-// export const BASE_URL = "https://api.aleksashkina.movies.nomoredomains.club";
-export const BASE_URL = "http://localhost:3001/";
+export const BASE_URL = "https://api.aleksashkina.movies.nomoredomains.club";
+// export const BASE_URL = "http://localhost:3001/";
 
 function request({ url, method = "POST", data, token }) {
   return fetch(`${BASE_URL}${url}`, {
