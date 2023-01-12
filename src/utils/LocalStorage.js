@@ -1,4 +1,4 @@
-export default class LoacalStorage {
+export default class LocalStorage {
   constructor(item, initialValues = "") {
     this.item = item;
     this.initialValues = initialValues;

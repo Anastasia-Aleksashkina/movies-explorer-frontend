@@ -1,31 +1,32 @@
-import { Route, Switch, useHistory } from "react-router-dom";
-import { useState, useEffect } from "react";
-import Main from "../Main/Main";
-import { PAGES, SORT_DURATION, DISPLAY_MOVIE } from "../../utils/constants";
-import "./App.css";
-import Movies from "../Movies/Movies";
-import SavedMovies from "../SavedMovies/SavedMovies";
-import Profile from "../Profile/Profile";
-import Register from "../Register/Register";
-import Login from "../Login/Login";
-import Header from "../Header/Header";
-import NotFound from "../NotFound/NotFound";
-import InfoTooltip from "../InfoTooltip/InfoTooltip";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import * as MainApi from "../../utils/MainApi";
-import { api } from "../../utils/MoviesApi";
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import LoacalStorage from "../../utils/LoacalStorage";
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import Main from '../Main/Main';
+import { PAGES, SORT_DURATION, DISPLAY_MOVIE } from '../../utils/constants';
+import './App.css';
+import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
+import Profile from '../Profile/Profile';
+import Register from '../Register/Register';
+import Login from '../Login/Login';
+import Header from '../Header/Header';
+import NotFound from '../NotFound/NotFound';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import * as MainApi from '../../utils/MainApi';
+import { api } from '../../utils/MoviesApi';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import LocalStorage from '../../utils/LocalStorage';
 
-const moviesLocal = new LoacalStorage("movies"); // Получаем массив всех фильмов из LoacalStorage
-const valueLocal = new LoacalStorage("search-value"); // Получаем строку поиска из LoacalStorage
-const checkboxLocal = new LoacalStorage("search-checkbox"); // Получаем состояние чебокса из LoacalStorage
+const moviesLocal = new LocalStorage('movies'); // Получаем массив всех фильмов из LocalStorage
+const valueLocal = new LocalStorage('search-value'); // Получаем строку поиска из LocalStorage
+const checkboxLocal = new LocalStorage('search-checkbox'); // Получаем состояние чебокса из LocalStorage
 
 function App() {
+  const location = useLocation();
   const history = useHistory(); // Обработка маршрутов по url
   const [menuActive, setmenuActive] = useState(false); // Меню в мобильной версии
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Проверка авторизации пользователяСостояние входа в профиль
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Проверка авторизации пользователяСостояние входа в профиль
   const [currentUser, setCurrentUser] = useState({}); // Данные текущего пользоволетя
 
   const [allMovies, setAllMovies] = useState([]); // Полный список фильмов с MoviesApi
@@ -36,31 +37,27 @@ function App() {
 
   const [isLoading, setIsLoading] = useState(false); // Состояние загрузки данных с сервера
   const [isInfoTooltip, setIsInfoTooltip] = useState(false); // Попап с ответом
-  const [resMessage, setResMessage] = useState(""); // Сообщение в попапе с ответом
+  const [resMessage, setResMessage] = useState(''); // Сообщение в попапе с ответом
   const [resStatus, setResStatus] = useState(true); // Статус ответа от сервера
 
   const [isSavedSearch, setIsSavedSearch] = useState(false); // Поиск в saved-movies
 
-  const [stepDisplayMovies, setStepDisplayMovies] = useState(
-    DISPLAY_MOVIE.DESKTOP
-  ); // Количество отображаемых фильмов при клике на кнопку "Еще"
+  const [stepDisplayMovies, setStepDisplayMovies] = useState(DISPLAY_MOVIE.FIRST_REQUEST.DESKTOP); // Количество отображаемых фильмов при клике на кнопку "Еще"
 
   const [formValues, setFormValues] = useState({
     // Значения поиска и фильтра по короткометражкам
-    value: "",
-    checkbox: "",
+    value: '',
+    checkbox: '',
   });
 
   // Проверка токена, подстановка данных пользователя
-  // Проверка наличия фильмов в LoacalStorage и добавление в стейт
+  // Проверка наличия фильмов в LocalStorage и добавление в стейт
   useEffect(() => {
-    if (!isLoggedIn) return;
-
     if (moviesLocal) {
       setAllMovies(moviesLocal.load());
     }
 
-    // Проверка наличия значений для поиска в LoacalStorage добавление в форму
+    // Проверка наличия значений для поиска в LocalStorage добавление в форму
     if (valueLocal || checkboxLocal) {
       setFormValues({
         value: valueLocal.load(),
@@ -81,16 +78,13 @@ function App() {
           setCurrentUser({});
         });
     }
-    getContent();
-  }, [isLoggedIn]);
 
-  // Подставляем данные из LoacalStorage в поиск и производим его
+    getContent();
+  }, []);
+
+  // Подставляем данные из LocalStorage в поиск и производим его
   useEffect(() => {
-    if (
-      formValues.value &&
-      allMovies.length &&
-      window.location.pathname === PAGES.MOVIES
-    ) {
+    if (formValues.value && allMovies.length && location.pathname === PAGES.MOVIES) {
       handleSearchMovies(formValues.value, formValues.checkbox);
     }
     // eslint-disable-next-line
@@ -98,17 +92,12 @@ function App() {
 
   // Зашрузка сохраненных фильмов пользователя с сервера
   useEffect(() => {
-    if (
-      window.location.pathname === PAGES.SIGNIN ||
-      window.location.pathname === PAGES.SIGNUP
-    )
-      return;
+    if (location.pathname === PAGES.SIGNIN || location.pathname === PAGES.SIGNUP) return;
     // Если пользователь залогинен и массив сохраненных фильмов пуст, выполняем запрос к API
     if (
       isLoggedIn &&
       !savedMovies.length &&
-      (window.location.pathname === PAGES.MOVIES ||
-        window.location.pathname === PAGES.SAVMOVIES)
+      (location.pathname === PAGES.MOVIES || location.pathname === PAGES.SAVMOVIES)
     ) {
       MainApi.getMovies()
         .then((movies) => {
@@ -116,46 +105,42 @@ function App() {
         })
         .catch((err) => console.log(err));
     }
-  }, [isLoggedIn, savedMovies.length]);
+  }, [isLoggedIn, savedMovies.length, location]);
 
   // Изменение количества отображаемых фильмов в зависимости от разрешения экрана
   useEffect(() => {
-    if (window.location.pathname === PAGES.MOVIES) {
-      window.addEventListener("resize", () => {
+    if (location.pathname === PAGES.MOVIES) {
+      window.addEventListener('resize', () => {
         setTimeout(() => {
-          window.screen.width <= 768
-            ? setStepDisplayMovies(DISPLAY_MOVIE.NEXT_REQUEST.TABLET_MOBILE)
-            : setStepDisplayMovies(DISPLAY_MOVIE.NEXT_REQUEST.DESKTOP);
+          window.screen.width < 767
+            ? setStepDisplayMovies(DISPLAY_MOVIE.FIRST_REQUEST.MOBILE)
+            : window.screen.width > 1280
+            ? setStepDisplayMovies(DISPLAY_MOVIE.FIRST_REQUEST.DESKTOP)
+            : setStepDisplayMovies(DISPLAY_MOVIE.FIRST_REQUEST.TABLET);
         }, 3000);
       });
     } else {
-      window.removeEventListener("resize", () => {});
+      window.removeEventListener('resize', () => {});
     }
-  }, []);
+  }, [location]);
 
   // Изменение отображаемого списка фильмов в зависимости от локации и поисков
   useEffect(() => {
     setDisplayMovies(
-      window.location.pathname === PAGES.MOVIES
+      location.pathname === PAGES.MOVIES
         ? filteredMovies.slice(0, stepDisplayMovies)
         : isSavedSearch
         ? savedFilteredMovies
         : savedMovies
     );
-  }, [
-    filteredMovies,
-    savedMovies,
-    isSavedSearch,
-    savedFilteredMovies,
-    stepDisplayMovies,
-  ]);
+  }, [filteredMovies, savedMovies, isSavedSearch, savedFilteredMovies, stepDisplayMovies, location]);
 
   // Фильтрация фильмов по значениям из инпута "Поиск" и фильтра по короткометражкам
-  // Если в LoacalStorage нет фильмов, получение их из movieApi
+  // Если в LocalStorage нет фильмов, получение их из movieApi
   function handleSearchMovies(value, checkbox) {
     setIsSavedSearch(false); // Поиск не на странице сохраненных фильмов
 
-    // Устанавливаем в форму значения до получения даныых из LoacalStorage
+    // Устанавливаем в форму значения до получения даныых из LocalStorage
     setFormValues({
       value: value,
       checkbox: checkbox,
@@ -165,14 +150,11 @@ function App() {
     checkboxLocal.save(checkbox);
 
     function filter(movies) {
-      
       // Изменяем количество добавляемых карточек с фильмами в зависимости от ширины экрана
-      window.screen.width > 768
-        ? setStepDisplayMovies(DISPLAY_MOVIE.FIRST_REQUEST.DESKTOP)
-        : setStepDisplayMovies(DISPLAY_MOVIE.FIRST_REQUEST.TABLET);
-
-        window.screen.width <= 480
+      window.screen.width < 767
         ? setStepDisplayMovies(DISPLAY_MOVIE.FIRST_REQUEST.MOBILE)
+        : window.screen.width > 1280
+        ? setStepDisplayMovies(DISPLAY_MOVIE.FIRST_REQUEST.DESKTOP)
         : setStepDisplayMovies(DISPLAY_MOVIE.FIRST_REQUEST.TABLET);
 
       setFilteredMovies(
@@ -180,8 +162,7 @@ function App() {
           if (checkbox) {
             return (
               // Фильтр для короткометражек
-              i.nameRU.toLowerCase().includes(value.toLowerCase()) &&
-              i.SORT_DURATION <= SORT_DURATION
+              i.nameRU.toLowerCase().includes(value.toLowerCase()) && i.duration <= SORT_DURATION
             );
           } else {
             return i.nameRU.toLowerCase().includes(value.toLowerCase()); // Фильтр для поля "Поиск"
@@ -204,7 +185,7 @@ function App() {
         .catch(() => {
           setResStatus(false);
           setIsInfoTooltip(true);
-          setResMessage("Произошла ошибка запроса.");
+          setResMessage('Произошла ошибка запроса.');
         });
     } else {
       // фильтруем все фильмы
@@ -217,15 +198,11 @@ function App() {
     setIsSavedSearch(true); // Поиск на странице с сохраненными фильмами
 
     // Отфильтрованные сохраненные фильмы
-    const savedSearch = savedMovies.filter((i) =>
-      i.nameRU.toLowerCase().includes(value.toLowerCase())
-    );
+    const savedSearch = savedMovies.filter((i) => i.nameRU.toLowerCase().includes(value.toLowerCase()));
 
     // Отфильтрованные сохраненные короткометражные фильмы
     const savedShortSearch = savedMovies.filter(
-      (i) =>
-        i.nameRU.toLowerCase().includes(value.toLowerCase()) &&
-        i.SORT_DURATION <= SORT_DURATION
+      (i) => i.nameRU.toLowerCase().includes(value.toLowerCase()) && i.SORT_DURATION <= SORT_DURATION
     );
 
     if (savedSearch || savedShortSearch) {
@@ -239,33 +216,25 @@ function App() {
 
   // Установить/удалить лайк/фильм
   function handleMovieLike(movie) {
-    const savedMovie = savedMovies.find(
-      (i) => i.movieId === movie.id || movie.movieId
-    ); // Фильм ищем в массиве с сохраненными фильмами
+    const savedMovie = savedMovies.find((i) => i.movieId === movie.id || movie.movieId); // Фильм ищем в массиве с сохраненными фильмами
 
     return MainApi.changeLikeMovieStatus(
-      savedMovie && window.location.pathname === PAGES.MOVIES
-        ? savedMovie
-        : movie,
+      savedMovie && location.pathname === PAGES.MOVIES ? savedMovie : movie,
       savedMovie
     )
       .then((req) => {
         if (!savedMovie) {
           setSavedMovies([req, ...savedMovies]); // Фильм не сохранен, добавляем в сохраненные
-        } else if (window.location.pathname === PAGES.MOVIES) {
-          setSavedMovies((state) =>
-            state.filter((c) => c.movieId !== movie.id)
-          ); // Фильм сохранён и находимся на странице movies - убираем лайк
+        } else if (location.pathname === PAGES.MOVIES) {
+          setSavedMovies((state) => state.filter((c) => c.movieId !== movie.id)); // Фильм сохранён и находимся на странице movies - убираем лайк
         } else {
-          setSavedMovies((state) =>
-            state.filter((c) => c.movieId !== movie.movieId)
-          ); // Фильм сохранен и находимся на странице saved-movies - удаляем фильм из сохраненных
+          setSavedMovies((state) => state.filter((c) => c.movieId !== movie.movieId)); // Фильм сохранен и находимся на странице saved-movies - удаляем фильм из сохраненных
         }
       })
       .catch(() => {
         setIsInfoTooltip(true);
         setResStatus(false);
-        setResMessage("Произошла ошибка запроса.");
+        setResMessage('Произошла ошибка запроса.');
       });
   }
 
@@ -273,9 +242,7 @@ function App() {
   function handleButtonMore() {
     // В зависимости от разрешения экрана добавляем разное количество фильмов
     const step =
-      window.screen.width <= 768
-        ? DISPLAY_MOVIE.NEXT_REQUEST.TABLET_MOBILE
-        : DISPLAY_MOVIE.NEXT_REQUEST.DESKTOP;
+      window.screen.width < 1280 ? DISPLAY_MOVIE.NEXT_REQUEST.TABLET_MOBILE : DISPLAY_MOVIE.NEXT_REQUEST.DESKTOP;
     // В стейт устанавливаем значение исходя из длинны массива и показываемых фильмов плюс шаг
     setStepDisplayMovies(displayMovies.length + step);
   }
@@ -283,23 +250,20 @@ function App() {
   // Регистрация
   function handleRegister(name, email, password) {
     return MainApi.register(name, email, password)
-      .then(() => {
+      .then((data) => {
+        if (!data) return
         setFormValues({
-          value: "",
-          checkbox: "",
+          value: '',
+          checkbox: '',
         });
-        handleLogin(email, password);
+        handleLogin({ email, password });
         setIsLoggedIn(true);
       })
-      .catch((err) => {
+      .catch(() => {
         setIsLoggedIn(false);
         setIsInfoTooltip(true);
         setResStatus(false);
-        setResMessage(
-          err.message.status === 409
-            ? "Пользователь с таким email уже существует."
-            : "Произошла ошибка запроса."
-        );
+        setResMessage('Произошла ошибка запроса.');
       });
   }
 
@@ -310,26 +274,22 @@ function App() {
       .then((data) => {
         if (!data) return;
         setFormValues({
-          value: "",
-          checkbox: "",
+          value: '',
+          checkbox: '',
         });
         setCurrentUser(data); // Определяем данные пользователя
         setIsLoggedIn(true);
         setIsInfoTooltip(true);
         setResStatus(true);
-        setResMessage(data.message);
+        setResMessage('Вы успешно вошли.');
         history.push(PAGES.MOVIES);
       })
-      .catch((err) => {
+      .catch(() => {
         setCurrentUser({});
         setIsLoggedIn(false);
         setIsInfoTooltip(true);
         setResStatus(false);
-        setResMessage(
-          err.message.status === 401
-            ? "Неправильные почта или пароль."
-            : "Произошла ошибка запроса."
-        );
+        setResMessage('Произошла ошибка запроса.');
       });
   }
 
@@ -340,17 +300,17 @@ function App() {
         setCurrentUser(data);
         setIsInfoTooltip(true);
         setResStatus(true);
-        setResMessage(data.message);
+        setResMessage("Вы изменили данные профиля.");
       })
-      .catch((err) => {
+      .catch(() => {
         setIsInfoTooltip(true);
         setResStatus(false);
-        setResMessage(err.message);
+        setResMessage('Произошла ошибка запроса.');
       });
   }
 
-  // Очистка LoacalStorage
-  function clearLoacalStorage() {
+  // Очистка LocalStorage
+  function clearLocalStorage() {
     moviesLocal.delete();
     valueLocal.delete();
     checkboxLocal.delete();
@@ -370,17 +330,17 @@ function App() {
         setSavedFilteredMovies([]);
         setDisplayMovies([]);
         setFormValues({
-          value: "",
-          checkbox: "",
+          value: '',
+          checkbox: '',
         });
-        clearLoacalStorage(); // LoacalStorage
+        clearLocalStorage(); // LocalStorage
         history.push(PAGES.MAIN);
       })
       .catch(() => {
         setIsLoggedIn(false);
         setIsInfoTooltip(true);
         setResStatus(false);
-        setResMessage("Произошла ошибка запроса.");
+        setResMessage('Произошла ошибка запроса.');
       });
   }
 
@@ -391,7 +351,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
-        <Header menuActive={menuActive} onMenu={handleMenu} />
+        <Header isLoggedIn={isLoggedIn} location={location} menuActive={menuActive} onMenu={handleMenu} />
         <main className="content">
           <Switch>
             <Route path={PAGES.MAIN} exact>
@@ -405,6 +365,7 @@ function App() {
             </Route>
             <ProtectedRoute isLoggedIn={isLoggedIn} path={PAGES.MOVIES} exact>
               <Movies
+                location={location}
                 allMovies={allMovies}
                 displayMovies={displayMovies}
                 filteredMovies={filteredMovies}
@@ -417,12 +378,9 @@ function App() {
                 onButtonMore={handleButtonMore}
               />
             </ProtectedRoute>
-            <ProtectedRoute
-              isLoggedIn={isLoggedIn}
-              path={PAGES.SAVMOVIES}
-              exact
-            >
+            <ProtectedRoute isLoggedIn={isLoggedIn} path={PAGES.SAVMOVIES} exact>
               <SavedMovies
+                location={location}
                 displayMovies={displayMovies}
                 savedMovies={savedMovies}
                 savedFilteredMovies={savedFilteredMovies}
@@ -434,10 +392,7 @@ function App() {
               />
             </ProtectedRoute>
             <ProtectedRoute isLoggedIn={isLoggedIn} path={PAGES.PROFILE} exact>
-              <Profile
-                onUpdateUser={handleUpdateUser}
-                onLogout={handleLogout}
-              />
+              <Profile onUpdateUser={handleUpdateUser} onLogout={handleLogout} />
             </ProtectedRoute>
             <Route path="*">
               <NotFound />

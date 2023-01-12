@@ -4,7 +4,7 @@ import "./Navigation.css";
 
 import { PAGES } from "../../utils/constants";
 
-function Navigation({ menuActive }) {
+function Navigation({location, menuActive }) {
   return (
     <>
       {window.screen.width > 768 ? (
@@ -47,19 +47,19 @@ function Navigation({ menuActive }) {
             <div className="navigation__links">
               <NavLink className="navigation__link" to={PAGES.MAIN}>
                 Главная
-                {window.location.pathname === PAGES.MAIN && (
+                {location.pathname === PAGES.MAIN && (
                   <span className="navigation__underline" />
                 )}
               </NavLink>
               <NavLink className="navigation__link" to={PAGES.MOVIES}>
                 Фильмы
-                {window.location.pathname === PAGES.MOVIES && (
+                {location.pathname === PAGES.MOVIES && (
                   <span className="navigation__underline" />
                 )}
               </NavLink>
               <NavLink className="navigation__link" to={PAGES.SAVMOVIES}>
                 Сохранённые фильмы
-                {window.location.pathname === PAGES.SAVMOVIES && (
+                {location.pathname === PAGES.SAVMOVIES && (
                   <span className="navigation__underline" />
                 )}
               </NavLink>

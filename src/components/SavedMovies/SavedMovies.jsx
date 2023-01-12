@@ -4,6 +4,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import "./SavedMovies.css";
 
 function SavedMovies({
+  location,
   displayMovies,
   savedMovies,
   savedFilteredMovies,
@@ -16,19 +17,13 @@ function SavedMovies({
   return (
     <>
       <main className="main">
-        <SearchForm
-          searchSavedMovies={handleSearchSavedMovies}
-          formValues={formValues}
-        />
+        <SearchForm location={location} searchSavedMovies={handleSearchSavedMovies} formValues={formValues} />
         {!savedMovies.length
-          ? ""
+          ? ''
           : !savedFilteredMovies.length &&
-            isSavedSearchMovies && (
-              <p className="saved-movies__error-message">
-                Нет сохраненных фильмов.
-              </p>
-            )}
+            isSavedSearchMovies && <p className="saved-movies__error-message">Нет сохраненных фильмов.</p>}
         <MoviesCardList
+          location={location}
           displayMovies={displayMovies}
           savedMovies={savedMovies}
           savedFilteredMovies={savedFilteredMovies}

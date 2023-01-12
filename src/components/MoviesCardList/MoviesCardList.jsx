@@ -8,7 +8,8 @@ function MoviesCardList({
   displayMovies,
   savedMovies,
   onLikeMovie,
-  resStatus
+  resStatus,
+  location,
 }) {
   return (
     <section className="movies-card-list">
@@ -21,6 +22,7 @@ function MoviesCardList({
           {  displayMovies.map((movie) => {
             return (
               <MoviesCard
+                location={location}
                 movie={movie}
                 key={movie.id || movie._id}
                 savedMovie={savedMovies}

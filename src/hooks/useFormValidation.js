@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useCallback, useState } from 'react';
 
 //хук управления формой и валидации формы
-export function useFormWithValidation(defaultValues = {}, config) {
-  const [values, setValues] = useState(defaultValues);
+export function useFormWithValidation(config) {
+  const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(false);
 
@@ -17,7 +17,16 @@ export function useFormWithValidation(defaultValues = {}, config) {
     isNotValidValue && config?.INPUTS.includes(name) && value.length
       ? setErrors({ ...errors, [name]: config.MESSAGES[name] })
       : setErrors({ ...errors, [name]: target.validationMessage });
-    setIsValid(target.closest("form").checkValidity());
+    setIsValid(target.closest('form').checkValidity());
   };
-  return { values, handleChange, errors, isValid, setValues, setIsValid };
+
+  const resetForm = useCallback(
+    (newValues = {}, newErrors = {}, newIsValid = false) => {
+      setValues(newValues);
+      setErrors(newErrors);
+      setIsValid(newIsValid);
+    },
+    [setValues, setErrors, setIsValid]
+  );
+  return { values, handleChange, errors, isValid, setValues, setIsValid, resetForm };
 }
