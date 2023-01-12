@@ -21,7 +21,7 @@
 * Валидация форм
 
 ## Адрес проекта
-[https://api.aleksashkina.movies.nomoredomains.club](https://api.aleksashkina.movies.nomoredomains.club).
+[https://aleksashkina.movies.nomoredomains.club](https://aleksashkina.movies.nomoredomains.club).
 
 ## Ссылка на Pull requests
 [https://github.com/Anastasia-Aleksashkina/movies-explorer-frontend/pulls](https://github.com/Anastasia-Aleksashkina/movies-explorer-frontend/pulls).
