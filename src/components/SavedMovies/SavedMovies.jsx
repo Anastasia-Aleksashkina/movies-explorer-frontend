@@ -4,6 +4,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import "./SavedMovies.css";
 
 function SavedMovies({
+  onDurationFilter,
   location,
   displayMovies,
   savedMovies,
@@ -17,7 +18,12 @@ function SavedMovies({
   return (
     <>
       <main className="main">
-        <SearchForm location={location} searchSavedMovies={handleSearchSavedMovies} formValues={formValues} />
+        <SearchForm
+          onDurationFilter={onDurationFilter}
+          location={location}
+          searchSavedMovies={handleSearchSavedMovies}
+          formValues={formValues}
+        />
         {!savedMovies.length
           ? ''
           : !savedFilteredMovies.length &&

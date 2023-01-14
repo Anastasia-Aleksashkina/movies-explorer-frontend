@@ -5,6 +5,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import "./Movies.css";
 
 function Movies({
+  onDurationFilter,
   location,
   allMovies,
   displayMovies,
@@ -20,7 +21,12 @@ function Movies({
   return (
     <>
       <main className="main">
-        <SearchForm location={location} formValues={formValues} searchMovies={onSearchMovies} />
+        <SearchForm
+          onDurationFilter={onDurationFilter}
+          location={location}
+          formValues={formValues}
+          searchMovies={onSearchMovies}
+        />
         {!allMovies.length ? '' : !filteredMovies.length && <p className="movies__error-message">Ничего не найдено.</p>}
         <MoviesCardList
           location={location}

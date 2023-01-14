@@ -140,7 +140,7 @@ function App() {
   function handleSearchMovies(value, checkbox) {
     setIsSavedSearch(false); // Поиск не на странице сохраненных фильмов
 
-    // Устанавливаем в форму значения до получения даныых из LocalStorage
+    // Устанавливаем в форму значения до получения данных из LocalStorage
     setFormValues({
       value: value,
       checkbox: checkbox,
@@ -202,7 +202,7 @@ function App() {
 
     // Отфильтрованные сохраненные короткометражные фильмы
     const savedShortSearch = savedMovies.filter(
-      (i) => i.nameRU.toLowerCase().includes(value.toLowerCase()) && i.SORT_DURATION <= SORT_DURATION
+      (i) => i.nameRU.toLowerCase().includes(value.toLowerCase()) && i.duration <= SORT_DURATION
     );
 
     if (savedSearch || savedShortSearch) {
@@ -212,6 +212,16 @@ function App() {
         setSavedFilteredMovies([...savedSearch]); // Cохраненные фильмы
       }
     }
+  }
+
+  function handleDurationFilter(value, checkbox) {
+    if (location.pathname === PAGES.MOVIES) {
+      handleSearchMovies(value, checkbox);
+    } else if (location.pathname === PAGES.SAVMOVIES) {
+      handleSearchSavedMovies(value, checkbox)
+    }
+
+    checkboxLocal.save(checkbox);
   }
 
   // Установить/удалить лайк/фильм
@@ -251,7 +261,7 @@ function App() {
   function handleRegister(name, email, password) {
     return MainApi.register(name, email, password)
       .then((data) => {
-        if (!data) return
+        if (!data) return;
         setFormValues({
           value: '',
           checkbox: '',
@@ -300,7 +310,7 @@ function App() {
         setCurrentUser(data);
         setIsInfoTooltip(true);
         setResStatus(true);
-        setResMessage("Вы изменили данные профиля.");
+        setResMessage('Вы изменили данные профиля.');
       })
       .catch(() => {
         setIsInfoTooltip(true);
@@ -365,6 +375,7 @@ function App() {
             </Route>
             <ProtectedRoute isLoggedIn={isLoggedIn} path={PAGES.MOVIES} exact>
               <Movies
+                onDurationFilter={handleDurationFilter}
                 location={location}
                 allMovies={allMovies}
                 displayMovies={displayMovies}
@@ -380,6 +391,7 @@ function App() {
             </ProtectedRoute>
             <ProtectedRoute isLoggedIn={isLoggedIn} path={PAGES.SAVMOVIES} exact>
               <SavedMovies
+                onDurationFilter={handleDurationFilter}
                 location={location}
                 displayMovies={displayMovies}
                 savedMovies={savedMovies}

@@ -2,7 +2,7 @@ import './SearchForm.css';
 import { useEffect, useState } from 'react';
 import { PAGES } from '../../utils/constants';
 
-function SearchForm({ location, formValues, searchMovies, searchSavedMovies }) {
+function SearchForm({ onDurationFilter, location, formValues, searchMovies, searchSavedMovies }) {
   const [isInvalid, setIsInvalid] = useState(false);
   const [searchValue, setSearchValue] = useState(location.pathname === PAGES.MOVIES ? formValues.value : '');
   const [searchCheckbox, setCheckbox] = useState(location.pathname === PAGES.MOVIES ? formValues.checkbox : false);
@@ -19,7 +19,9 @@ function SearchForm({ location, formValues, searchMovies, searchSavedMovies }) {
   }
 
   function handleSearchCheckbox(e) {
-    setCheckbox(e.target.checked);
+    const checkbox = e.target.checked;
+    setCheckbox(checkbox);
+    onDurationFilter(searchValue, checkbox);
   }
 
   function handleSubmit(e) {
