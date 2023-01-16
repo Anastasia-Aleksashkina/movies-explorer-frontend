@@ -17,10 +17,12 @@
 }
 
 .profile__label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0;
+  margin: 0 0 16px;
+  display: grid;
+  grid-template: repeat(2, 1fr) / repeat(2, 1fr);
+  grid-template-areas: "label input" "error error";
+  grid-area: label;
+  min-width: 100%;
   font-weight: 500;
   font-size: 11px;
   line-height: 13px;
@@ -29,10 +31,10 @@
 
 .profile__label:last-of-type {
   border-bottom: none;
+  margin: 0;
 }
 
 .profile__input {
-  padding: 0 0 16px;
   min-width: 270px;
   border: none;
   background-color: transparent;
@@ -40,21 +42,32 @@
   text-align: end;
   font-weight: 400;
   font-size: 11px;
+  grid-area: input;
 }
 
 .profile__input:last-child {
   margin-top: 17px;
 }
 
+.profile__input_error {
+  color: #ee3465;
+}
+
+.profile__text-error {
+  color: #ee3465;
+  font-weight: 400;
+  font-size: 10px;
+  grid-area: error;
+}
+
 .profile__control {
   display: flex;
   flex-direction: column;
   row-gap: 16px;
-  margin: 204px 0 0;
 }
 
 .profile__button {
-  font-weight: 400;
+  margin: 204px 0 0;
   font-size: 13px;
   background-color: transparent;
   border: none;
@@ -63,7 +76,13 @@
   cursor: pointer;
 }
 
+.profile__button_disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
 .profile__button_red {
+  margin: 16px 0 0;
   font-weight: 500;
   color: #ee3465;
 }

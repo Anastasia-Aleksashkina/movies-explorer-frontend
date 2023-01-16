@@ -1,100 +1,38 @@
-import "./MoviesCard.css";
-import { PAGES } from "../../utils/constants";
+import './MoviesCard.css';
+import { PAGES, BASE_URL } from '../../utils/constants';
 
-function MoviesCard() {
+function MoviesCard({ location, movie, savedMovie, onLikeMovie }) {
+  function duration(data) {
+    const hours = Math.floor(data / 60);
+    const minutes = data % 60;
+
+    return hours ? `${hours}ч ${minutes}м` : `${minutes}м`;
+  }
+  
   return (
-    <>
-      <ul className="movies-card">
+    <div className="movies-card">
+      <a className="movies-card__trailer-link" href={movie.trailerLink} target="_blank" rel="noreferrer">
         <img
           className="movies-card__img"
-          src={require("../../images/img1.png")}
-          alt="Постер"
+          src={`${location.pathname === PAGES.SAVMOVIES ? movie.image : `${BASE_URL}${movie.image.url}`}`}
+          alt={movie.nameRU}
         />
-        <div className="movies-card__info">
-          <p className="movies-card__name-film">33 слова о дизайне</p>
-          {window.location.pathname === PAGES.MOVIES && (
-            <button className="movies-card__like" type="button" />
-          )}
-          {window.location.pathname === PAGES.SAVMOVIES && (
-            <button className="movies-card__delete" />
-          )}
-        </div>
-        <p className="movies-card__film-duration">1ч 47м</p>
-      </ul>
-      <ul className="movies-card">
-        <img
-          className="movies-card__img"
-          src={require("../../images/img2.png")}
-          alt="Постер"
+      </a>
+      <div className="movies-card__info">
+        <p className="movies-card__name-film">{movie.nameRU}</p>
+        <button
+          onClick={() => onLikeMovie(movie)}
+          className={`movies-card__like  ${
+            savedMovie.find((i) => i.movieId === movie.id)
+              ? 'movies-card__like_active'
+              : location.pathname === PAGES.SAVMOVIES
+              ? 'movies-card__delete'
+              : ''
+          }`}
         />
-        <div className="movies-card__info">
-          <p className="movies-card__name-film">
-            Киноальманах «100 лет дизайна»
-          </p>
-          {window.location.pathname === PAGES.MOVIES && (
-            <button className="movies-card__like" type="button" />
-          )}
-          {window.location.pathname === PAGES.SAVMOVIES && (
-            <button className="movies-card__delete" />
-          )}
-        </div>
-        <p className="movies-card__film-duration">1ч 3м</p>
-      </ul>
-      <ul className="movies-card">
-        <img
-          className="movies-card__img"
-          src={require("../../images/img3.png")}
-          alt="Постер"
-        />
-        <div className="movies-card__info">
-          <p className="movies-card__name-film">В погоне за Бенкси</p>
-          {window.location.pathname === PAGES.MOVIES && (
-            <button className="movies-card__like" type="button" />
-          )}
-          {window.location.pathname === PAGES.SAVMOVIES && (
-            <button className="movies-card__delete" />
-          )}
-        </div>
-        <p className="movies-card__film-duration">1ч 42м</p>
-      </ul>
-      <ul className="movies-card">
-        <img
-          className="movies-card__img"
-          src={require("../../images/img4.png")}
-          alt="Постер"
-        />
-        <div className="movies-card__info">
-          <p className="movies-card__name-film">Баския: Взрыв реальности</p>
-          {window.location.pathname === PAGES.MOVIES && (
-            <button className="movies-card__like" type="button" />
-          )}
-          {window.location.pathname === PAGES.SAVMOVIES && (
-            <button className="movies-card__delete" />
-          )}
-        </div>
-        <p className="movies-card__film-duration">1ч 21м</p>
-      </ul>
-      <ul className="movies-card">
-        <img
-          className="movies-card__img"
-          src={require("../../images/img5.png")}
-          alt="Постер"
-        />
-        <div className="movies-card__info">
-          <p className="movies-card__name-film">Бег это свобода</p>
-          {window.location.pathname === PAGES.MOVIES && (
-            <button
-              className="movies-card__like movies-card__like_active"
-              type="button"
-            />
-          )}
-          {window.location.pathname === PAGES.SAVMOVIES && (
-            <button className="movies-card__delete" />
-          )}
-        </div>
-        <p className="movies-card__film-duration">1ч 44м</p>
-      </ul>
-    </>
+      </div>
+      <p className="movies-card__film-duration">{duration(movie.duration)}</p>
+    </div>
   );
 }
 

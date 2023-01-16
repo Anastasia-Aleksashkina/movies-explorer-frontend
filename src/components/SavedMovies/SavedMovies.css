@@ -3,6 +3,15 @@
   margin: 107px 0 0;
 }
 
+.saved-movies__error-message {
+  margin: 20px auto 0;
+  text-align: center;
+  align-self: center;
+  font-weight: 400;
+  font-size: 13px;
+  max-width: 60%;
+}
+
 @media screen and (max-width: 768px) {
   .saved-movies__interval {
     margin: 30px 0 0;

@@ -1,49 +1,80 @@
-import { Link } from "react-router-dom";
-import Logo from "../Logo/Logo";
-import "./Register.css";
+import { Link } from 'react-router-dom';
+import Logo from '../Logo/Logo';
+import './Register.css';
+import { useFormWithValidation } from '../../hooks/useFormValidation';
+import { VALIDATION_CONFIG } from '../../utils/constants';
 
-function Register() {
+function Register({ onRegister }) {
+  const { values, handleChange, errors, isValid } = useFormWithValidation(VALIDATION_CONFIG.REGISTER_DATA);
+
+  function handleSubmitForm(e) {
+    e.preventDefault();
+
+    const { name, email, password } = values;
+    if (!isValid) return;
+    onRegister(name, email, password);
+  }
+
   return (
     <section className="auth">
       <div className="auth__header">
         <Logo />
         <h1 className="auth__title">Добро пожаловать!</h1>
       </div>
-      <form className="form">
+      <form onSubmit={handleSubmitForm} className="form">
         <label className="form__label">
           Имя
           <input
-            type="text"
-            className="form__input"
+            className={`form__input ${errors.name ? 'form__input_error' : ''}`}
             placeholder="Имя"
-            value="Настя"
+            required
+            type="text"
+            name="name"
+            minLength="2"
+            value={values.name || ''}
+            onChange={handleChange}
           />
+          <span className="form__text-error">{errors.name || ''}</span>
         </label>
         <label className="form__label">
           E-mail
           <input
-            type="text"
-            className="form__input"
+            className={`form__input ${errors.email ? 'form__input_error' : ''}`}
             placeholder="E-mail"
-            value="aleksashkina@yandex.ru"
+            required
+            type="email"
+            name="email"
+            value={values.email || ''}
+            onChange={handleChange}
           />
+          <span className="form__text-error">{errors.email || ''}</span>
         </label>
         <label className="form__label" placeholder="Пароль">
           Пароль
           <input
-            type="password"
-            className="form__input form__input_error"
-            value="123456789"
+            className={`form__input ${errors.password ? 'form__input_error' : ''}`}
             placeholder="Пароль"
+            required
+            type="password"
+            name="password"
+            minLength="6"
+            value={values.password || ''}
+            onChange={handleChange}
           />
-          <span className="form__text-error">Что-то пошло не так...</span>
+          <span className="form__text-error">{errors.password || ''}</span>
         </label>
-        <button className="form__button" type="submit">
+        <button
+          className={isValid ? 'form__button' : 'form__button form__button_disabled'}
+          type="submit"
+          disabled={!isValid}
+        >
           Зарегистрироваться
         </button>
         <p className="form__text">
           Уже зарегистрированы?
-          <Link className="form__link" to="/signin">Войти</Link>
+          <Link className="form__link" to="/signin">
+            Войти
+          </Link>
         </p>
       </form>
     </section>
